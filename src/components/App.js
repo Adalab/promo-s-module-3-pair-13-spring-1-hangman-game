@@ -1,9 +1,8 @@
-import "../styles/App.scss";
+import "../styles/main.scss";
+
 
 function App() {
   return (
-    <div className='App'>
-      {
         <div className='page'>
           <header>
             <h1 className='header__title'>Juego del ahorcado</h1>
@@ -40,9 +39,9 @@ function App() {
                   Escribe una letra:
                 </label>
                 <input
-                  autocomplete='off'
+              autoComplete='off'
                   className='form__input'
-                  maxlength='1'
+              maxLength='1'
                   type='text'
                   name='last-letter'
                   id='last-letter'
@@ -65,8 +64,6 @@ function App() {
               <span className='error-1 line'></span>
             </section>
           </main>
-        </div>
-      }
     </div>
   );
 }
