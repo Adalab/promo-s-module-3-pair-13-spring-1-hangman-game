@@ -1,24 +1,38 @@
 import "../styles/main.scss";
 import { useState } from "react";
 
-//const VALID = "ABCDEÑ";
+const VALID = "ABCDEFGHIJKLMNOPQRSTUVWZY";
 
 function App() {
+
   const [numberOfErrors, setNumberOfErrors] = useState(0);
   const [lastLetter, setLastLetter] = useState("");
-  const handleLastLetter = (event) => {
-    // if (VALID.includes(event.target.value.toUpperCase())) {
-    //setLastLetter(event.target.value);
-    //}
+  const [word, setWord] = useState('pepino');
+  const [userLetters, setUserLetters] = useState([]);
 
-    if (event.target.value.search(/[A-ZÑAEIOU]/i) === 0) {
+  const wordLetters = word.split('');
+
+  const renderSolutionLetters = () => {
+    return (
+      wordLetters.map((letter, index) => {
+        return (
+
+          <li key={index} class="letter"></li>
+        )
+      }))
+  }
+
+  const handleLastLetter = (event) => {
+    if (VALID.includes(event.target.value.toUpperCase())) {
       setLastLetter(event.target.value);
+      if (lastLetter != "") {
+        userLetters.push(lastLetter);
+      }
     }
   };
 
   const clickEvent = () => {
     setNumberOfErrors(numberOfErrors + 1);
-    console.log("hola");
   };
 
   return (
@@ -31,16 +45,7 @@ function App() {
           <div className='solution'>
             <h2 className='title'>Solución:</h2>
             <ul className='letters'>
-              <li className='letter'>k</li>
-              <li className='letter'>a</li>
-              <li className='letter'></li>
-              <li className='letter'>a</li>
-              <li className='letter'>k</li>
-              <li className='letter'>r</li>
-              <li className='letter'></li>
-              <li className='letter'>k</li>
-              <li className='letter'>e</li>
-              <li className='letter'>r</li>
+              {renderSolutionLetters()}
             </ul>
           </div>
           <div className='error'>
