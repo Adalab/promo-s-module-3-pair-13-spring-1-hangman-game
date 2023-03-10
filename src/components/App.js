@@ -4,39 +4,58 @@ import { useState } from "react";
 const VALID = "ABCDEFGHIJKLMNOPQRSTUVWZY";
 
 function App() {
-
   const [numberOfErrors, setNumberOfErrors] = useState(0);
   const [lastLetter, setLastLetter] = useState("");
-  const [word, setWord] = useState('pepino');
+  const [word, setWord] = useState("pepino");
   const [userLetters, setUserLetters] = useState([]);
+  const [failed, setFailed] = useState(0);
 
-  const wordLetters = word.split('');
+  const wordLetters = word.split("");
 
   const renderSolutionLetters = () => {
-    return (
-      wordLetters.map((letter, index) => {
-        if (!userLetters.includes(letter)) {
-          return (
-            <li key={index} class="letter"></li>
-          )
-        } else { return (<li key={index} class="letter">{letter}</li>) }
-      })
-
-    )
-  }
+    return wordLetters.map((letter, index) => {
+      if (!userLetters.includes(letter)) {
+        return <li key={index} class='letter'></li>;
+      } else {
+        return (
+          <li key={index} class='letter'>
+            {letter}
+          </li>
+        );
+      }
+    });
+  };
+  const renderErrorLettters = () => {
+    return userLetters.map((letter, index) => {
+      if (!wordLetters.includes(letter)) {
+        return (
+          <li key={index} class='letter'>
+            {letter}
+          </li>
+        );
+      }
+      setNumberOfErrors(numberOfErrors + 1);
+    });
+  };
 
   const handleLastLetter = (event) => {
     if (VALID.includes(event.target.value.toUpperCase())) {
       setLastLetter(event.target.value);
-      if (lastLetter != "" && !userLetters.includes(lastLetter)) {
-        userLetters.push(event.target.value);
+
+      if (
+        event.target.value != "" &&
+        !userLetters.includes(event.target.value)
+      ) {
+        const newUserLetters = [...userLetters];
+        newUserLetters.push(event.target.value);
+        setUserLetters(newUserLetters);
       }
     }
   };
 
-  const clickEvent = () => {
-    setNumberOfErrors(numberOfErrors + 1);
-  };
+  // const clickEvent = () => {
+  // setNumberOfErrors(numberOfErrors + 1);
+  // };
 
   return (
     <div className='page'>
@@ -47,19 +66,11 @@ function App() {
         <section>
           <div className='solution'>
             <h2 className='title'>Solución:</h2>
-            <ul className='letters'>
-              {renderSolutionLetters()}
-            </ul>
+            <ul className='letters'>{renderSolutionLetters()}</ul>
           </div>
           <div className='error'>
             <h2 className='title'>Letras falladas:</h2>
-            <ul className='letters'>
-              <li className='letter'>f</li>
-              <li className='letter'>q</li>
-              <li className='letter'>h</li>
-              <li className='letter'>p</li>
-              <li className='letter'>x</li>
-            </ul>
+            <ul className='letters'> {renderErrorLettters()}</ul>
           </div>
           <form className='form'>
             <label className='title' htmlFor='last-letter'>
@@ -76,7 +87,7 @@ function App() {
               value={lastLetter}
             />
           </form>
-          <button onClick={clickEvent}>Incrementar</button>
+          {/* { <button onClick={clickEvent}>Incrementar</button> */} */}
         </section>
         <section className={`dummy error-${numberOfErrors}`}>
           <span className='error-13 eye'></span>
