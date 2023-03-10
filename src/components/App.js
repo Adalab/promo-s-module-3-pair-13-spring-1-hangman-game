@@ -15,18 +15,21 @@ function App() {
   const renderSolutionLetters = () => {
     return (
       wordLetters.map((letter, index) => {
-        return (
+        if (!userLetters.includes(letter)) {
+          return (
+            <li key={index} class="letter"></li>
+          )
+        } else { return (<li key={index} class="letter">{letter}</li>) }
+      })
 
-          <li key={index} class="letter"></li>
-        )
-      }))
+    )
   }
 
   const handleLastLetter = (event) => {
     if (VALID.includes(event.target.value.toUpperCase())) {
       setLastLetter(event.target.value);
-      if (lastLetter != "") {
-        userLetters.push(lastLetter);
+      if (lastLetter != "" && !userLetters.includes(lastLetter)) {
+        userLetters.push(event.target.value);
       }
     }
   };
